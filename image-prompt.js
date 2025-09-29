@@ -1,3 +1,24 @@
+/**
+ * @copyright    Copyright (C) 2025 - 2026 TheBukitBesi. All rights reserved.
+ * @author       (https://thebukitbesi.com)
+ * @version      1.0
+ * @license      All Rights Reserved
+ * This source file is proprietary and confidential. Unauthorized copying,
+ * modification, distribution, or use of this file, via any medium, is
+ * strictly prohibited without the express written permission of the author.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ _____________________________________________________________________________
+ * Free tool named: Image to Prompt Generator
+ * Ultra-lightweight, SEO Optimized with Rich Schema.org
+ * Larger thumbnails, mobile optimized
+ * Version 1.0 - Copyrighted by thebukitbesi.com
+ */
 // ========== Advanced AI Prompt Generator - Main Application ==========
 (function() {
   'use strict';
