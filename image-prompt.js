@@ -474,19 +474,17 @@
 
 // ========== API Stubs & Local Analysis (MISSING CODE BLOCK) ==========
 
+// ========== API Stubs & Local Analysis (FULLY RESTORED) ==========
+
   async function callHuggingFace(blob) {
-    // Use BLIP for basic captioning
     const response = await fetch('https://api-inference.huggingface.co/models/Salesforce/blip-image-captioning-large', {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${appState.apiKey}` },
       body: blob
     });
-
     if (!response.ok) throw new Error('Hugging Face API error');
-
     const result = await response.json();
     const caption = result[0]?.generated_text || 'a detailed image';
-    
     return {
       main_prompt: enhanceCaption(caption),
       negative_prompt: getDefaultNegatives(),
@@ -499,10 +497,9 @@
   async function localAnalysis(blob) {
     // Basic local analysis using color extraction
     const colors = await extractDominantColors(blob);
-    const caption = `image with ${colors.join(', ')} color palette`;
-    
+    const caption = `image with a ${colors.join(', ')} color palette`;
     return {
-      main_prompt: `detailed ${appState.options.image.style} image, ${colors.join(', ')} tones, high quality, sharp focus`,
+      main_prompt: `detailed ${appState.options.image.style} image, ${colors.join(', ')} tones, high quality, sharp focus, cinematic lighting`,
       negative_prompt: getDefaultNegatives(),
       parameters: getDefaultParameters(),
       alt_text: caption,
@@ -513,7 +510,6 @@
   async function localTextEnhancement(input) {
     const opts = appState.options.text;
     const enhanced = `${input}, ${opts.style} style, highly detailed, professional quality, perfect composition, ${opts.complexity === 'advanced' ? 'intricate details, masterpiece, ' : ''}sharp focus, vibrant colors`;
-    
     return {
       enhanced_prompt: enhanced,
       variation_1: `${input}, cinematic ${opts.style}, dramatic lighting, 8k resolution, award winning`,
@@ -533,15 +529,15 @@
   function getDefaultParameters() {
     const opts = appState.currentMode === 'image' ? appState.options.image : appState.options.text;
     const target = opts.target;
+    const ar = appState.image.aspectRatio ? `--ar ${appState.image.aspectRatio}` : '--ar 1:1';
     
     const params = {
-      sd: 'Steps: 30, Sampler: DPM++ 2M Karras, CFG scale: 7, Size: 1024x1024, Model: SDXL',
-      mj: '--ar 3:4 --v 6 --style raw',
-      flux: 'steps: 28, guidance: 3.5, size: 1024x1024',
-      dalle: 'quality: hd, style: vivid, size: 1024x1792',
-      leonardo: 'photoReal: true, alchemy: true, presetStyle: CINEMATIC'
+      sd: `Steps: 30, Sampler: DPM++ 2M Karras, CFG scale: 7, Size: 1024x1024`,
+      mj: `${ar} --v 6 --style raw`,
+      flux: `steps: 28, guidance: 3.5, size: 1024x1024`,
+      dalle: `quality: hd, style: vivid, size: 1024x1024`,
+      leonardo: `photoReal: true, alchemy: true, presetStyle: CINEMATIC`
     };
-    
     return params[target] || params.sd;
   }
 
@@ -551,24 +547,17 @@
       photorealistic: 'photorealistic, highly detailed, 8k, professional photography',
       artistic: 'artistic style, creative composition, expressive',
       illustration: 'illustration style, digital art, detailed artwork',
-      '3d': '3d render, octane render, unreal engine, photorealistic 3d',
+      '3d': '3d render, octane render, unreal engine',
       anime: 'anime style, manga art, vibrant colors, cel shaded',
-      portrait: 'portrait photography, professional lighting, sharp focus on subject',
+      portrait: 'portrait photography, professional lighting, sharp focus',
       landscape: 'landscape photography, wide angle, scenic vista',
-      product: 'product photography, studio lighting, clean background',
-      architecture: 'architectural photography, geometric composition, HDR'
     };
-    
     return `${caption}, ${styleTerms[opts.style] || styleTerms.photorealistic}, masterpiece, best quality`;
   }
 
   function extractKeywords(text) {
     const stopwords = new Set(['a', 'an', 'and', 'the', 'of', 'in', 'on', 'with', 'for', 'to', 'from', 'at', 'by', 'image', 'with', 'palette']);
-    const words = text.toLowerCase()
-      .replace(/[^a-z0-9\s]/g, '')
-      .split(/\s+/)
-      .filter(w => w.length > 2 && !stopwords.has(w));
-    
+    const words = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 2 && !stopwords.has(w));
     return [...new Set(words)].slice(0, 12);
   }
 
@@ -581,52 +570,39 @@
         canvas.height = 64;
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
         ctx.drawImage(img, 0, 0, 64, 64);
-        
-        const imageData = ctx.getImageData(0, 0, 64, 64);
-        const data = imageData.data;
+        const imageData = ctx.getImageData(0, 0, 64, 64).data;
         const colorMap = new Map();
         
-        for (let i = 0; i < data.length; i += 4) {
-          if (data[i + 3] < 200) continue; 
-          
-          const r = Math.floor(data[i] / 32) * 32;
-          const g = Math.floor(data[i + 1] / 32) * 32;
-          const b = Math.floor(data[i + 2] / 32) * 32;
+        for (let i = 0; i < imageData.length; i += 8) { // Sample pixels to be faster
+          if (imageData[i + 3] < 200) continue;
+          const r = Math.floor(imageData[i] / 32) * 32;
+          const g = Math.floor(imageData[i + 1] / 32) * 32;
+          const b = Math.floor(imageData[i + 2] / 32) * 32;
           const key = `${r},${g},${b}`;
-          
           colorMap.set(key, (colorMap.get(key) || 0) + 1);
         }
         
         const sorted = [...colorMap.entries()]
           .sort((a, b) => b[1] - a[1])
           .slice(0, 5)
-          .map(([rgb]) => {
-            const [r, g, b] = rgb.split(',').map(Number);
-            return getColorName(r, g, b);
-          });
+          .map(([rgb]) => getColorName(rgb.split(',').map(Number)));
         
         resolve([...new Set(sorted)].slice(0, 4));
       };
-      
       img.src = URL.createObjectURL(blob);
     });
   }
 
-  function getColorName(r, g, b) {
+  function getColorName([r, g, b]) {
     const colorNames = [
-      [[0, 0, 0], 'black'], [[255, 255, 255], 'white'], 
-      [[128, 128, 128], 'gray'], [[255, 0, 0], 'red'],
-      [[0, 255, 0], 'green'], [[0, 0, 255], 'blue'],
-      [[255, 255, 0], 'yellow'], [[255, 165, 0], 'orange'],
-      [[128, 0, 128], 'purple'], [[255, 192, 203], 'pink'],
-      [[165, 42, 42], 'brown'], [[0, 128, 128], 'teal']
+      [[0, 0, 0], 'black'], [[255, 255, 255], 'white'], [[128, 128, 128], 'gray'], 
+      [[255, 0, 0], 'red'], [[0, 255, 0], 'green'], [[0, 0, 255], 'blue'], 
+      [[255, 255, 0], 'yellow'], [[255, 165, 0], 'orange'], [[128, 0, 128], 'purple'], 
+      [[255, 192, 203], 'pink'], [[165, 42, 42], 'brown'], [[0, 128, 128], 'teal']
     ];
-    
-    let minDist = Infinity;
-    let closestName = 'neutral';
-    
+    let minDist = Infinity, closestName = 'neutral';
     for (const [[cr, cg, cb], name] of colorNames) {
-      const dist = Math.sqrt((r - cr) ** 2 + (g - cg) ** 2 + (b - cb) ** 2);
+      const dist = Math.sqrt((r - cr)**2 + (g - cg)**2 + (b - cb)**2);
       if (dist < minDist) {
         minDist = dist;
         closestName = name;
