@@ -1,0 +1,726 @@
+/* ========== Advanced Prompt Generator Styles (Light Theme) ========== */
+:root {
+  --pgen-bg: #ffffff;
+  --pgen-surface: #f8fafc;
+  --pgen-card: #ffffff;
+  --pgen-text: #0f172a;
+  --pgen-sub: #64748b;
+  --pgen-border: rgba(15,23,42,0.1);
+  --pgen-accent: #0ea5e9;
+  --pgen-accent-hover: #0284c7;
+  --pgen-success: #10b981;
+  --pgen-warning: #f59e0b;
+  --pgen-error: #ef4444;
+  --pgen-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  --pgen-shadow-lg: 0 10px 25px rgba(0,0,0,0.12);
+  --pgen-radius: 12px;
+  --pgen-radius-sm: 8px;
+  --pgen-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#prompt-gen-app {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  color: var(--pgen-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.pgen-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 16px;
+}
+
+/* ========== Hero Section ========== */
+.pgen-hero {
+  text-align: center;
+  margin-bottom: 32px;
+  padding: 24px 16px;
+  background: linear-gradient(135deg, var(--pgen-surface) 0%, var(--pgen-card) 100%);
+  border-radius: var(--pgen-radius);
+  border: 1px solid var(--pgen-border);
+}
+
+.pgen-title {
+  font-size: clamp(24px, 4vw, 38px);
+  font-weight: 800;
+  margin: 0 0 12px;
+  line-height: 1.2;
+  background: linear-gradient(135deg, var(--pgen-accent) 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.pgen-subtitle {
+  font-size: clamp(14px, 2vw, 16px);
+  color: var(--pgen-sub);
+  margin: 0 0 20px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pgen-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.pgen-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  background: var(--pgen-accent);
+  color: white;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ========== Mode Switcher ========== */
+.pgen-mode-switch {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.pgen-mode-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: var(--pgen-surface);
+  border: 2px solid var(--pgen-border);
+  border-radius: var(--pgen-radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--pgen-sub);
+  cursor: pointer;
+  transition: var(--pgen-transition);
+}
+
+.pgen-mode-btn:hover {
+  border-color: var(--pgen-accent);
+  color: var(--pgen-accent);
+}
+
+.pgen-mode-btn.pgen-mode-active {
+  background: var(--pgen-accent);
+  border-color: var(--pgen-accent);
+  color: white;
+}
+
+/* ========== Cards ========== */
+.pgen-card {
+  background: var(--pgen-card);
+  border: 1px solid var(--pgen-border);
+  border-radius: var(--pgen-radius);
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--pgen-shadow);
+}
+
+.pgen-card h2, .pgen-card h3, .pgen-card h4 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.pgen-card h2 { font-size: 24px; }
+.pgen-card h3 { font-size: 18px; }
+.pgen-card h4 { font-size: 16px; }
+
+/* ========== Configuration Panel ========== */
+.pgen-config-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.pgen-config-header h3 {
+  margin: 0;
+}
+
+.pgen-config-toggle {
+  font-size: 14px;
+}
+
+.pgen-config-body.pgen-collapsed {
+  display: none;
+}
+
+/* ========== Grids ========== */
+.pgen-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.pgen-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .pgen-grid-2, .pgen-grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========== Form Elements ========== */
+.pgen-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pgen-field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--pgen-text);
+}
+
+.pgen-optional {
+  font-weight: 400;
+  color: var(--pgen-sub);
+  font-size: 13px;
+}
+
+.pgen-select,
+.pgen-input,
+.pgen-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--pgen-surface);
+  border: 1px solid var(--pgen-border);
+  border-radius: var(--pgen-radius-sm);
+  font-size: 14px;
+  color: var(--pgen-text);
+  font-family: inherit;
+  transition: var(--pgen-transition);
+}
+
+.pgen-select:focus,
+.pgen-input:focus,
+.pgen-textarea:focus {
+  outline: none;
+  border-color: var(--pgen-accent);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+}
+
+.pgen-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.pgen-input-group {
+  display: flex;
+  gap: 8px;
+}
+
+.pgen-input-group .pgen-input {
+  flex: 1;
+}
+
+/* ========== Buttons ========== */
+.ibtn, .ibtn-primary, .ibtn-secondary, .ibtn-ghost, .ibtn-sm, .ibtn-icon, .ibtn-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: var(--pgen-radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: var(--pgen-transition);
+  text-decoration: none;
+}
+
+.ibtn, .pgen-save-config {
+  background: var(--pgen-accent);
+  color: white;
+}
+
+.ibtn:hover, .pgen-save-config:hover {
+  background: var(--pgen-accent-hover);
+  transform: translateY(-1px);
+}
+
+.ibtn-primary {
+  background: var(--pgen-accent);
+  color: white;
+  font-size: 16px;
+  padding: 14px 28px;
+}
+
+.ibtn-primary:hover {
+  background: var(--pgen-accent-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--pgen-shadow-lg);
+}
+
+.ibtn-secondary {
+  background: var(--pgen-surface);
+  color: var(--pgen-text);
+  border: 2px solid var(--pgen-border);
+}
+
+.ibtn-secondary:hover {
+  border-color: var(--pgen-accent);
+  color: var(--pgen-accent);
+}
+
+.ibtn-ghost {
+  background: transparent;
+  color: var(--pgen-sub);
+  border: 1px solid var(--pgen-border);
+}
+
+.ibtn-ghost:hover {
+  background: var(--pgen-surface);
+  color: var(--pgen-text);
+}
+
+.ibtn-sm {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.ibtn-icon {
+  padding: 8px;
+  min-width: 36px;
+}
+
+.ibtn-tab {
+  background: var(--pgen-surface);
+  color: var(--pgen-sub);
+  border: 1px solid var(--pgen-border);
+}
+
+.ibtn-tab.pgen-tab-active {
+  background: var(--pgen-accent);
+  color: white;
+  border-color: var(--pgen-accent);
+}
+
+.pgen-full-width {
+  width: 100%;
+}
+
+/* ========== Actions ========== */
+.pgen-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.pgen-help {
+  flex-basis: 100%;
+  font-size: 12px;
+  color: var(--pgen-sub);
+  margin-top: 4px;
+}
+
+/* ========== Tabs ========== */
+.pgen-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.pgen-tab-pane {
+  display: none;
+}
+
+.pgen-tab-pane.pgen-tab-active {
+  display: block;
+}
+
+/* ========== Dropzone ========== */
+.pgen-dropzone {
+  display: block;
+  border: 2px dashed var(--pgen-border);
+  border-radius: var(--pgen-radius);
+  padding: 40px 20px;
+  text-align: center;
+  background: var(--pgen-surface);
+  cursor: pointer;
+  transition: var(--pgen-transition);
+}
+
+.pgen-dropzone:hover,
+.pgen-dropzone.pgen-dragover {
+  border-color: var(--pgen-accent);
+  background: rgba(14, 165, 233, 0.05);
+}
+
+.pgen-dropzone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--pgen-sub);
+}
+
+.pgen-dropzone-content strong {
+  color: var(--pgen-text);
+  font-size: 16px;
+}
+
+.pgen-dropzone-content small {
+  font-size: 12px;
+}
+
+/* ========== Preview ========== */
+.pgen-preview-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: var(--pgen-surface);
+  border-radius: var(--pgen-radius-sm);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--pgen-border);
+}
+
+.pgen-preview-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: none;
+}
+
+.pgen-preview-img.pgen-visible {
+  display: block;
+}
+
+.pgen-preview-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--pgen-sub);
+}
+
+.pgen-preview-placeholder.pgen-hidden {
+  display: none;
+}
+
+/* ========== Metadata Grid ========== */
+.pgen-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--pgen-border);
+}
+
+.pgen-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pgen-meta-label {
+  font-size: 12px;
+  color: var(--pgen-sub);
+  font-weight: 600;
+}
+
+.pgen-meta-value {
+  font-size: 14px;
+  color: var(--pgen-text);
+  font-weight: 500;
+}
+
+/* ========== Checkboxes ========== */
+.pgen-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.pgen-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.pgen-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* ========== Clipboard Prompt ========== */
+.pgen-clipboard-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 20px;
+  color: var(--pgen-sub);
+  text-align: center;
+}
+
+/* ========== Generate Section ========== */
+.pgen-generate-section {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
+}
+
+.pgen-generate-btn {
+  min-width: 280px;
+}
+
+.pgen-generate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ========== Output Section ========== */
+.pgen-output-section {
+  display: none;
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 2px solid var(--pgen-border);
+}
+
+.pgen-output-section.pgen-visible {
+  display: block;
+}
+
+.pgen-output-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.pgen-output-header h3,
+.pgen-output-header h4 {
+  margin: 0;
+}
+
+.pgen-output-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.pgen-output-textarea {
+  background: var(--pgen-surface);
+  border: 1px solid var(--pgen-accent);
+  font-family: 'SF Mono', 'Consolas', 'Monaco', monospace;
+  font-size: 13px;
+}
+
+/* ========== Variations ========== */
+.pgen-variations {
+  display: none;
+}
+
+.pgen-variations.pgen-visible {
+  display: block;
+}
+
+.pgen-variations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.pgen-variation {
+  background: var(--pgen-surface);
+  padding: 16px;
+  border-radius: var(--pgen-radius-sm);
+  border: 1px solid var(--pgen-border);
+}
+
+.pgen-variation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.pgen-variation-header h5 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.pgen-var-textarea {
+  font-size: 12px;
+  background: var(--pgen-card);
+}
+
+/* ========== Download All ========== */
+.pgen-download-all-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* ========== Mode Content ========== */
+.pgen-mode-content {
+  display: block;
+}
+
+.pgen-mode-content.pgen-hidden {
+  display: none;
+}
+
+/* ========== Guide & FAQ ========== */
+.pgen-guide-mode {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--pgen-border);
+}
+
+.pgen-guide-mode:last-child {
+  border-bottom: none;
+}
+
+.pgen-ol, .pgen-ul {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.pgen-ol li, .pgen-ul li {
+  margin-bottom: 10px;
+  line-height: 1.7;
+}
+
+.pgen-pro-tips {
+  background: var(--pgen-surface);
+  padding: 20px;
+  border-radius: var(--pgen-radius-sm);
+  border-left: 4px solid var(--pgen-accent);
+  margin-top: 20px;
+}
+
+.pgen-pro-tips h3 {
+  margin-top: 0;
+}
+
+.pgen-faq-item {
+  background: var(--pgen-surface);
+  padding: 16px 20px;
+  border-radius: var(--pgen-radius-sm);
+  margin-bottom: 12px;
+  border: 1px solid var(--pgen-border);
+  cursor: pointer;
+  transition: var(--pgen-transition);
+}
+
+.pgen-faq-item:hover {
+  border-color: var(--pgen-accent);
+}
+
+.pgen-faq-item summary {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--pgen-text);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pgen-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.pgen-faq-item summary::before {
+  content: '&#x25B6;';
+  font-size: 12px;
+  color: var(--pgen-accent);
+  transition: transform 0.2s;
+}
+
+.pgen-faq-item[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.pgen-faq-item p {
+  margin: 12px 0 0 22px;
+  color: var(--pgen-sub);
+  line-height: 1.7;
+}
+
+/* ========== SEO Content ========== */
+.pgen-seo-content p {
+  margin-bottom: 16px;
+  line-height: 1.8;
+}
+
+.pgen-seo-content h3 {
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+/* ========== Status Colors ========== */
+#pgen-status.pgen-status-ready { color: var(--pgen-sub); }
+#pgen-status.pgen-status-processing { color: var(--pgen-warning); }
+#pgen-status.pgen-status-success { color: var(--pgen-success); }
+#pgen-status.pgen-status-error { color: var(--pgen-error); }
+
+/* ========== Utility Classes ========== */
+.pgen-hidden { display: none !important; }
+.pgen-visible { display: block !important; }
+.pgen-collapsed { display: none; }
+
+/* ========== Loading Spinner ========== */
+@keyframes pgen-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.pgen-loading {
+  display: inline-block;
+  animation: pgen-spin 1s linear infinite;
+}
+
+/* ========== Responsive Adjustments ========== */
+@media (max-width: 640px) {
+  .pgen-container { padding: 16px 12px; }
+  .pgen-card { padding: 16px; }
+  .pgen-hero { padding: 20px 16px; }
+  .pgen-mode-switch { flex-direction: column; }
+  .pgen-mode-btn { width: 100%; justify-content: center; }
+  .pgen-meta-grid { grid-template-columns: 1fr; }
+  .pgen-variations-grid { grid-template-columns: 1fr; }
+  .pgen-output-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .pgen-output-actions { width: 100%; }
+  .ibtn-sm { width: 100%; }
+}
+
+/* ========== Print Styles ========== */
+@media print {
+  .pgen-config, .pgen-mode-switch, .pgen-generate-section, 
+  .pgen-output-actions, .ibtn, .ibtn-primary, .ibtn-ghost {
+    display: none !important;
+  }
+}
